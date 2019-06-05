@@ -1,0 +1,142 @@
+#myNavbar{
+    margin-bottom: 2%;
+}
+
+.postCover{
+    width: 30%; 
+    float:left;
+    margin-right: 20px;
+    margin-bottom: 10px; 
+    border-radius: 5px;
+    box-shadow: 10px 10px 5px #aaaaaa;
+    background-color: white;
+    padding: 10px 10px 15px 10px;
+}
+
+.commContainer{
+    background-color: inherit;
+    padding: 5px;
+    border-left: 1px solid silver;
+    margin-bottom: 80px !important;
+}
+
+.postContainer{
+    display: table;
+    position: relative;
+    width: 100%;
+    border-left:  1px solid silver;
+    padding-left: 10px;
+    padding-top: 5px;
+    margin-bottom: 10px !important;
+}
+
+.timestamp{
+    position: absolute;
+    bottom: -15px;
+    right: 0px; 
+    text-decoration: underline;
+    text-decoration-color: silver;
+}
+
+.postCoverIndex{
+    width: 100%;
+    box-shadow: none; 
+}
+
+.grid-container {
+    display: grid;
+    grid-template-columns: auto auto;
+    background-color: #2196F3;
+    padding: 10px;
+}
+
+.grid-item {
+    background-color: rgba(255, 255, 255, 0.8);
+    border: 1px solid rgba(0, 0, 0, 0.8);
+    padding: 20px;
+    font-size: 30px;
+    text-align: center;
+}
+
+img {
+    max-width:100%;
+    height:auto;
+}
+
+.footer {
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    color: silver !important;
+    background-color: whitesmoke !important;
+    text-align: center;
+}
+
+p,.footCompany{
+    margin-bottom: 5px !important;
+}
+
+.footLinks{
+    color: silver !important;
+}
+
+.lastComments{
+    display: flex;
+    display: -webkit-flex;
+    flex-direction: column;
+    -webkit-flex-direction: column;
+}
+
+.commImg{
+    overflow: auto;
+}
+
+.noDec{
+    text-decoration: none !important;
+}
+
+#clock{
+    font-family: "Palatino Linotype";
+}
+
+.dashForm{
+    display: grid;
+    grid-template-columns: auto auto auto auto auto auto;
+    justify-content: space-evenly;
+    grid-gap: 10px;
+}
+
+.fGroup{
+    margin: 0.5rem;
+}
+
+.replyForm{
+    margin-top: 10px;
+}
+
+.horDiv{
+    width: 50%;
+    border-top: 1px solid whitesmoke;
+    margin-top: 10px;
+}
+
+.commBody{
+    margin-top: 5px;
+    margin-bottom: 5px;
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+}
+
+.smaller{
+    width: 47px;
+    height: 20px;
+    line-height: 5px;
+    padding: 5px;
+}
+
+.hrStyle{
+    width: 70%;
+    text-align:left;
+    margin-left:0;
+}
