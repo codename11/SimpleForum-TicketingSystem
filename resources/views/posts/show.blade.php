@@ -1,6 +1,9 @@
 @extends("layouts.app")
 
 @section("content")
+<?php
+//dump(auth()->user()->isAdmin())
+?>
     <?php 
         /*Pregleda zasebno za title i description da li ima gresaka. 
         Ukoliko ih ima, dodeljume im klasu(crveni border).*/
@@ -99,24 +102,21 @@
                         @if($comms[$i]->status!=0)
 
                             {{$comms[$i]->body}}
-
+                            
                         @else
 
                             <p style="color: whitesmoke;">"This comment has been removed ..."</p>
+                            @include('inc.unDeleteForm', array('par' => $comms[$i]))
 
                         @endif
 
                         @if(Auth::check() && Auth::user()->role_id<3 && Auth::user()->role_id>0 && $comms[$i]->status!=0)
 
-                            <br><span class="btn btn-outline-primary btn-sm" style="width: 40px;height: 20px;line-height: 5px;padding: 5px;" onclick="reply('reply{{ $comms[$i]->id }}')";>reply</span>
+                            <br><span class="btn btn-outline-primary btn-sm smaller" onclick="reply('toggleForm{{ $comms[$i]->id }}')";>reply</span>
                             @include('inc.replyForm', array('par' => $comms[$i]))
-                            <form action="/posts/{{$post->id}}/comments/{{$comms[$i]->id}}" method="POST" class="float-right">
-                                @csrf
-                                {{method_field("PATCH")}}
-                                
-                                <button type="submit" class="btn btn-outline-danger btn-sm">Delete</button>
-                            
-                            </form>
+                            <br><span class="btn btn-outline-success btn-sm smaller" onclick="reply('toggleForm{{ $comms[$i]->id }}')";>update</span>
+                            @include('inc.updateForm', array('par' => $comms[$i]))
+                            @include('inc.deleteForm', array('par' => $comms[$i]))
                           
                         @endif
 
@@ -139,21 +139,17 @@
                                     @else
 
                                         <p style="color: whitesmoke;">"This reply has been removed ..."</p>
+                                        @include('inc.unDeleteForm', array('par' => $replies[$j]))
 
                                     @endif
 
                                     @if(Auth::check() && Auth::user()->role_id<3 && Auth::user()->role_id>0 && $replies[$j]->status!=0)
 
-                                        <br><span class="btn btn-outline-primary btn-sm smaller" onclick="reply('reply{{ $replies[$j]->id }}')";>reply</span>
+                                        <br><span class="btn btn-outline-primary btn-sm smaller" onclick="reply('toggleForm{{ $replies[$j]->id }}')";>reply</span>
                                         @include('inc.replyForm', array('par' => $replies[$j]))
-                                        <form action="/posts/{{$post->id}}/comments/{{$comms[$i]->id}}" method="POST" class="float-right">
-                                            @csrf
-                                            
-                                            @method('patch')
-                                            
-                                            <button type="submit" class="btn btn-outline-danger btn-sm">Delete</button>
-                                        
-                                        </form>
+                                        <br><span class="btn btn-outline-success btn-sm smaller" onclick="reply('toggleForm{{ $replies[$j]->id }}')";>update</span>
+                                        @include('inc.updateForm', array('par' => $replies[$j]))
+                                        @include('inc.deleteForm', array('par' => $replies[$j]))
 
                                     @endif
 
@@ -172,20 +168,16 @@
                                         @else
 
                                             <p style="color: whitesmoke;">"This reply has been removed ..."</p>
-    
+                                            @include('inc.unDeleteForm', array('par' => $replies[$k]))
                                         @endif
 
                                         @if(Auth::check() && Auth::user()->role_id<3 && Auth::user()->role_id>0 && $replies[$k]->status!=0)
 
-                                            <br><span class="btn btn-outline-primary btn-sm smaller" onclick="reply('reply{{ $replies[$k]->id }}')";>reply</span>
+                                            <br><span class="btn btn-outline-primary btn-sm smaller" onclick="reply('toggleForm{{ $replies[$k]->id }}')";>reply</span>
                                             @include('inc.replyForm', array('par' => $replies[$k]))
-                                            <form action="/posts/{{$post->id}}/comments/{{$comms[$i]->id}}" method="POST" class="float-right">
-                                                @csrf
-                                                @method('patch')
-                                                
-                                                <button type="submit" class="btn btn-outline-danger btn-sm smaller">Delete</button>
-                                            
-                                            </form>
+                                            <br><span class="btn btn-outline-success btn-sm smaller" onclick="reply('toggleForm{{ $replies[$k]->id }}')";>update</span>
+                                            @include('inc.updateForm', array('par' => $replies[$k]))
+                                            @include('inc.deleteForm', array('par' => $replies[$k]))
 
                                         @endif
 

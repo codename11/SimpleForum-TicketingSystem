@@ -44,9 +44,15 @@ Route::resource("posts", "PostsController");
 
 
 Route::patch('/posts/{id}/comments/{comment_id}', "CommentsController@softDelete");
+Route::get('/posts/{id}/comments/{comment_id}', "CommentsController@softUnDelete");
+Route::post('/posts/{id}/comments/{comment_id}', "CommentsController@update");
 Route::resource("/posts/{id}/comments", "CommentsController");
 
 //Route::resource("/posts/{id}/comments/{parent_id}", "CommentsController");
+
 Auth::routes();
 
+
+
 Route::get('/dashboard', 'DashboardController@index');
+

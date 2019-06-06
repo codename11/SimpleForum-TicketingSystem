@@ -8,6 +8,29 @@ function reply(elem){
         x.style.display = "block";
     }
 
+}
+
+function update(elem){
+    console.log(elem);
+    var x = document.getElementById(elem);
+    if (x.style.display == "block") {
+        x.style.display = "none";
+    } 
+    else {
+        x.style.display = "block";
+    }
+
+}
+
+function toggleForm(elem){
+    console.log(elem);
+    var x = document.getElementById(elem);
+    if (x.style.display == "block") {
+        x.style.display = "none";
+    } 
+    else {
+        x.style.display = "block";
+    }
 
 }
 

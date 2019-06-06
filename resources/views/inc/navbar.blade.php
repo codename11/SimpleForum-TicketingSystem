@@ -23,10 +23,12 @@
             <li class="nav-item">
               <a class="nav-link" href="/services">Services</a>
             </li>
-            <li class="nav-item">
-              <a class="nav-link" href="/posts">Blog</a>
-            </li>
-            @if(Auth::check() && Auth::user()->role_id<4 && Auth::user()->role_id>0)
+            @if(Auth::check() && Auth::user()->status==1)
+              <li class="nav-item">
+                <a class="nav-link" href="/posts">Blog</a>
+              </li>
+            @endif
+            @if(Auth::check() && Auth::user()->role_id<4 && Auth::user()->role_id>0 && Auth::user()->status===1)
             <li class="nav-item">
               <a class="nav-link" href="/posts/create">Create Post</a>
             </li>

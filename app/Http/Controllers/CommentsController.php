@@ -107,9 +107,42 @@ class CommentsController extends Controller
         return back();
     }
 
+    public function softUnDelete(Request $request, $id, $comment_id)
+    {
+        $comment = Comment::find($comment_id);
+        $comment->status = 1;
+        $comment->save();
+        return back();
+    }
+
     public function update(Request $request, $id, $comment_id)
     {
+        $comment = Comment::find($request->input("comment_id"));
         
+        $this->validate($request, [
+            "body" => "required"
+            
+        ]);
+
+        $data = array(
+            "body" => $request->input("body"),
+            "post_id" => intval($id),
+            "commenter_id" => Auth::user()->id,
+            "imParent_id" => $request->input("comment_id")
+        );
+
+        
+
+        
+        $comment->body = $request->input("body");
+        
+        $comment->save();
+
+        $post = Post::find($id);
+        $comments = $post->comments;
+        
+        return back()->with('comments', $comments);
+
     }
 
     /**

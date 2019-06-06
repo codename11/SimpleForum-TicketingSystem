@@ -48,4 +48,33 @@ class User extends Authenticatable
     public function comments(){
         return $this->hasMany("App\Comment");
     }
+   
+    public function isAdmin()
+    {//dd($user);
+        
+        return $this->rola()->where('role', 'administrator')->exists();
+        
+    }
+
+    public function isModerator(User $user)
+    {//dd($user);
+        
+        return $this->rola()->where('role', 'moderator')->exists();
+        
+    }
+
+    public function isUser(User $user)
+    {//dd($user);
+        
+        return $this->rola()->where('role', 'user')->exists();
+        
+    }
+
+    public function isPeon(User $user)
+    {//dd($user);
+        
+        return $this->rola()->where('role', 'peon')->exists();
+        
+    }
+    
 }

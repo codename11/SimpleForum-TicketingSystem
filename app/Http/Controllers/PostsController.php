@@ -8,6 +8,7 @@ use App\Post;
 use App\Comment;
 use App\Roles;
 use DB;
+use Auth;
 use Illuminate\Support\Facades\Storage;
 use App\Mail\PostCreated;
 use Illuminate\Support\Facades\Mail;
@@ -27,6 +28,8 @@ class PostsController extends Controller
     public function index()
     {
         
+        $this->authorize('view', Post::class);
+
         $comments = Comment::all();
         //$posts = Post::all();
         //$posts = Post::orderBy("created_at","desc")->get();
@@ -54,8 +57,11 @@ class PostsController extends Controller
      */
     public function create()
     {  
+        
         $this->authorize('create', Post::class);
+        
         return view("posts.create");
+        
     }
 
     /**
@@ -66,6 +72,7 @@ class PostsController extends Controller
      */
     public function store(Request $request)
     {
+
         /* 
         $request->validate([
             "title" => "required",
@@ -114,6 +121,7 @@ class PostsController extends Controller
      */
     public function show($id)
     {
+
         //$roles = new Roles();
         //$user = new User();
         //dump($roles->find($id));
@@ -139,7 +147,7 @@ class PostsController extends Controller
         /*This twos are gold!*/
 
         $post = Post::find($id);  
-        
+        $this->authorize('checkIfAuthorized', $post);
         $comments = $post->comments;
         //dump($comments);
         
@@ -167,6 +175,7 @@ class PostsController extends Controller
      */
     public function edit($id)
     {
+
         $this->authorize('update', Post::class);
         $post = Post::find($id);
         /*if(\Gate::denies("checkIfAuthorized",$post)){
@@ -175,7 +184,7 @@ class PostsController extends Controller
         /*Moze bez drugog parametra, valjda polisa(PostPolicy) 
         uporedjuje sa trenutno ulogovanim korisnikom.
         $this->authorize('ifAuthorized', auth()->user()->id, $post);*/
-        $this->authorize('checkIfAuthorized', $post);
+        
         return view("posts.edit")->with("post", $post);
     }
 
@@ -188,6 +197,7 @@ class PostsController extends Controller
      */
     public function update(Request $request, $id)
     {
+
         $post = Post::find($id);
         /*Moze bez drugog parametra, valjda polisa(PostPolicy) 
         uporedjuje sa trenutno ulogovanim korisnikom.
@@ -230,7 +240,7 @@ class PostsController extends Controller
      */
     public function destroy($id)
     {
-        
+
         $post = Post::find($id);
         /*if(\Gate::allows("checkIfAuthorized",$post)){
             abort(403);
