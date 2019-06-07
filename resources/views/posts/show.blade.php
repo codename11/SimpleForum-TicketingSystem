@@ -43,7 +43,7 @@
                 
                         <!-- Modal Header -->
                         <div class="modal-header">
-                        <h4 class="modal-title">Are yoy sure you want to delete this post?</h4>
+                        <h4 class="modal-title">Are you sure you want to delete this post?</h4>
                         <button type="button" class="close" data-dismiss="modal">&times;</button>
                         </div>
                 
@@ -112,9 +112,9 @@
 
                         @if(Auth::check() && Auth::user()->role_id<3 && Auth::user()->role_id>0 && $comms[$i]->status!=0)
 
-                            <br><span class="btn btn-outline-primary btn-sm smaller" onclick="reply('toggleForm{{ $comms[$i]->id }}')";>reply</span>
+                            <br><span class="btn btn-outline-primary btn-sm smaller" onclick="toggleForm('reply{{ $comms[$i]->id }}')";>reply</span>
                             @include('inc.replyForm', array('par' => $comms[$i]))
-                            <br><span class="btn btn-outline-success btn-sm smaller" onclick="reply('toggleForm{{ $comms[$i]->id }}')";>update</span>
+                            <br><span class="btn btn-outline-success btn-sm smaller" onclick="toggleForm('update{{ $comms[$i]->id }}')";>update</span>
                             @include('inc.updateForm', array('par' => $comms[$i]))
                             @include('inc.deleteForm', array('par' => $comms[$i]))
                           
@@ -145,9 +145,9 @@
 
                                     @if(Auth::check() && Auth::user()->role_id<3 && Auth::user()->role_id>0 && $replies[$j]->status!=0)
 
-                                        <br><span class="btn btn-outline-primary btn-sm smaller" onclick="reply('toggleForm{{ $replies[$j]->id }}')";>reply</span>
+                                        <br><span class="btn btn-outline-primary btn-sm smaller" onclick="toggleForm('reply{{ $replies[$j]->id }}')";>reply</span>
                                         @include('inc.replyForm', array('par' => $replies[$j]))
-                                        <br><span class="btn btn-outline-success btn-sm smaller" onclick="reply('toggleForm{{ $replies[$j]->id }}')";>update</span>
+                                        <br><span class="btn btn-outline-success btn-sm smaller" onclick="toggleForm('update{{ $replies[$j]->id }}')";>update</span>
                                         @include('inc.updateForm', array('par' => $replies[$j]))
                                         @include('inc.deleteForm', array('par' => $replies[$j]))
 
@@ -173,9 +173,9 @@
 
                                         @if(Auth::check() && Auth::user()->role_id<3 && Auth::user()->role_id>0 && $replies[$k]->status!=0)
 
-                                            <br><span class="btn btn-outline-primary btn-sm smaller" onclick="reply('toggleForm{{ $replies[$k]->id }}')";>reply</span>
+                                            <br><span class="btn btn-outline-primary btn-sm smaller" onclick="toggleForm('reply{{ $replies[$k]->id }}')";>reply</span>
                                             @include('inc.replyForm', array('par' => $replies[$k]))
-                                            <br><span class="btn btn-outline-success btn-sm smaller" onclick="reply('toggleForm{{ $replies[$k]->id }}')";>update</span>
+                                            <br><span class="btn btn-outline-success btn-sm smaller" onclick="toggleForm('update{{ $replies[$k]->id }}')";>update</span>
                                             @include('inc.updateForm', array('par' => $replies[$k]))
                                             @include('inc.deleteForm', array('par' => $replies[$k]))
 

@@ -19,7 +19,29 @@ class CreateRolesTable extends Migration
             $table->timestamps();
         });
 
+        //This 
+        /*DB::table('roles')->insert(
+            [ 
+                ["role" => "adminstrator"], 
+                ["role" => "moderator"], 
+                ["role" => "user"],
+                ["role" => "peon"]
+            ]
+        );*/
+        //
+
+        //Or this
+        //$this->createRoles("adminstrator", "moderator", "user", "peon");
     }
+
+    //and this?
+    /*private function createRoles(string ...$roles)  {
+        foreach ($roles as $role) {
+            $model = new Role();
+            $model->setAttribute("role", $role);
+            $model->save();
+        }
+    }*/
 
     /**
      * Reverse the migrations.
