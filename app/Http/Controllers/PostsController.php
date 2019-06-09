@@ -29,6 +29,9 @@ class PostsController extends Controller
     {
         
         $this->authorize('view', Post::class);
+        /*$usersWithRole = Roles::with('users')->where('role', 'administrator')->get();
+        $admins = User::whereHas('rola', function($q){$q->whereIn('role', ['user']);})->get();
+        dd($admins);*/
 
         $comments = Comment::all();
         //$posts = Post::all();

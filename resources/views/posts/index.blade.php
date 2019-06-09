@@ -1,11 +1,7 @@
 @extends("layouts.app")
 
 @section("content")
-
-        {{auth()->user()->rola->id}} <br>
-        {{auth()->user()->role_id}}
        
-        
         <div class="row">
             <div class="col-md-4 order-md-2 mb-4">
 

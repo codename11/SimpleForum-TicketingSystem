@@ -38,7 +38,7 @@ class User extends Authenticatable
     ];
 
     public function rola(){
-        return $this->belongsTo("App\Roles", "id");
+        return $this->belongsTo("App\Roles", "role_id");
     }
 
     public function posts(){

@@ -26,12 +26,11 @@
     </div>
     <?php
     
-    //dump(Auth::user()->rola->id);
+    //dump(Auth::user()->isUser());
     ?>
-    
-    {{Auth::user()}}
+
     @if(!Auth::guest())
-        @if(Auth::check() && (Auth::user()->isAdmin() || Auth::user()->isModerator()) && Auth::user()->status!=0)
+        @if(Auth::check() && (Auth::user()->rola->role=="administrator" || Auth::user()->rola->role=="moderator") && Auth::user()->status!=0)
             <hr>
             <a href="/posts/{{$post->id}}/edit" class="btn btn-outline-primary btn-sm">Edit</a>
 
@@ -73,7 +72,7 @@
     @auth
     <hr>
 
-    @if(Auth::check() && (Auth::user()->isAdmin() || Auth::user()->isModerator()) && Auth::user()->status!=0)
+    @if(Auth::check() && (Auth::user()->rola->role=="administrator" || Auth::user()->rola->role=="moderator") && Auth::user()->status!=0)
         <form method="POST" action="/posts/{{$post->id}}/comments">
             @csrf
             <!-- https://laravel.com/docs/5.7/validation#available-validation-rules -->
@@ -99,10 +98,11 @@
             @if(count($comms) > 0)
 
                 @for($i=0;$i<count($comms);$i++)
-
+                
                     <li class="list-group-item py-2 commBody" parent_id="{{$comms[$i]->parent_id}}" id="{{$comms[$i]->id}}">
-
-                        @if($comms[$i]->status!=0)
+                            
+                        @if($comms[$i]->status!=0 && $comms[$i]->parent_id===null)
+                        
                         <div><img src="/storage/cover_images/{{$comms[$i]->commentAuthor->avatar}}" style="border-radius: 5px;float: left;margin-right:10px;">{{$comms[$i]->commentAuthor->name}}</div><br>
                         <div style="background-color: whitesmoke; border-radius: 5px;padding: 5px;">{{$comms[$i]->body}}</div>
                             
@@ -113,7 +113,7 @@
 
                         @endif
 
-                        @if(Auth::check() && (Auth::user()->isAdmin() || Auth::user()->isModerator()) && $comms[$i]->status!=0)
+                        @if(Auth::check() && (Auth::user()->rola->role=="administrator" || Auth::user()->rola->role=="moderator") && $comms[$i]->status!=0)
 
                             <br><span class="btn btn-outline-primary btn-sm smaller" onclick="toggleForm('reply{{ $comms[$i]->id }}')";>reply</span>
                             @include('inc.replyForm', array('par' => $comms[$i]))
@@ -129,9 +129,9 @@
 
                     @if(count($replies) > 0)
 
-                        @for($j=0;$j<count($replies);$j++)
+                        @for($j=$i;$j<count($replies);$j++)
 
-                            @if($comms[$i]->id==$replies[$j]->parent_id)
+                            @if($comms[$i]->id==$replies[$j]->parent_id && $replies[$j]->parent_id!==null)
     
                                 <li class="list-group-item py-2 commBody" parent_id="{{$replies[$j]->parent_id}}" id="{{$replies[$j]->id}}">
 
@@ -146,7 +146,7 @@
 
                                     @endif
 
-                                    @if(Auth::check() && (Auth::user()->isAdmin() || Auth::user()->isModerator()) && $replies[$j]->status!=0)
+                                    @if(Auth::check() && (Auth::user()->rola->role=="administrator" || Auth::user()->rola->role=="moderator") && $replies[$j]->status!=0)
 
                                         <br><span class="btn btn-outline-primary btn-sm smaller" onclick="toggleForm('reply{{ $replies[$j]->id }}')";>reply</span>
                                         @include('inc.replyForm', array('par' => $replies[$j]))
@@ -162,7 +162,7 @@
 
                             @for($k=$j;$k<count($replies);$k++)
 
-                                @if($replies[$k]->parent_id==$replies[$j]->id)
+                                @if($replies[$k]->parent_id==$replies[$j]->id && $replies[$k]->parent_id!==null)
 
                                     <li class="list-group-item py-2 commBody" parent_id="{{$replies[$k]->parent_id}}" id="{{$replies[$k]->id}}">
 
@@ -176,7 +176,7 @@
                                             @include('inc.unDeleteForm', array('par' => $replies[$k]))
                                         @endif
 
-                                        @if(Auth::check() && (Auth::user()->isAdmin() || Auth::user()->isModerator()) && $replies[$k]->status!=0)
+                                        @if(Auth::check() && (Auth::user()->rola->role=="administrator" || Auth::user()->rola->role=="moderator") && $replies[$k]->status!=0)
 
                                             <br><span class="btn btn-outline-primary btn-sm smaller" onclick="toggleForm('reply{{ $replies[$k]->id }}')";>reply</span>
                                             @include('inc.replyForm', array('par' => $replies[$k]))

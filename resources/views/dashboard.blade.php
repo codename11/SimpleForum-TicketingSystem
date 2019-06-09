@@ -2,12 +2,7 @@
 
 @section('content')
 <div class="container">
-        
-        <?php
-        if(Auth::user()->rola->id===Auth::user()->role_id){
-            echo Auth::user()->rola->id;
-        }
-        ?>
+
     <div class="row justify-content-center">
         <div class="col-md-8">
             <div class="card">
