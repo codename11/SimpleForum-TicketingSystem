@@ -1,4 +1,4 @@
-<form method="POST" style="display:none;" class="replyForm" action="/posts/{{$post->id}}/comments" id="reply{{ $comment->id }}">
+<form method="POST" class="replyForm DisplayNone" action="/posts/{{$post->id}}/comments" id="reply{{ $comment->id }}">
                    
     <input id="{{ $comment->id }}" type="hidden" name="comment_id" value="{{ $comment->id }}" />
     <input type="hidden" name="post_id" value="{{ $comment->post_id }}" />

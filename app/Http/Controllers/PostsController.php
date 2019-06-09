@@ -34,6 +34,7 @@ class PostsController extends Controller
         dd($admins);*/
 
         $comments = Comment::all();
+        
         //$posts = Post::all();
         //$posts = Post::orderBy("created_at","desc")->get();
         //$posts = Post::orderBy("created_at","desc")->take(1)->get();
@@ -48,9 +49,11 @@ class PostsController extends Controller
             $posts = Post::orderBy("created_at","desc")->paginate(5);
         }*/
         $posts = Post::orderBy("created_at","desc")->paginate(5);
+        $comms = $posts->comments()->where("parent_id", "=", 0)->with(["replies"])->get();
+        $replies =  $posts->comments()->where("parent_id", "!=", 0)->with(["replies"])->get();
         //dump($posts);
         
-        return view("posts.index")->with(compact("posts", "comments"));
+        return view("posts.index")->with(compact("posts", "comments", "comms", "replies"));
     }
 
     /**
@@ -155,8 +158,8 @@ class PostsController extends Controller
         //dump($comments);
         
 
-        $comms = $post->comments()->where("parent_id", "=", null)->with(["replies"])->get();
-        $replies =  $post->comments()->where("parent_id", "!=", null)->with(["replies"])->get();
+        $comms = $post->comments()->where("parent_id", "=", 0)->with(["replies"])->get();
+        $replies =  $post->comments()->where("parent_id", "!=", 0)->with(["replies"])->get();
         //dd($replies);
         //$user = User::find($comments->commenter_id);
         
@@ -166,8 +169,8 @@ class PostsController extends Controller
         ];*/
         $prev = $post->prev($post);
         $next = $post->next($post);
-
-        return view("posts.show")->with(compact("post", "prev", "next", "comments", "comms", "replies"));
+        
+        return view("posts.show")->with(compact("post", "prev", "next", "comms", "replies"));
     }
 
     /**

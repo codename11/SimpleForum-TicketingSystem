@@ -23,12 +23,12 @@
             <li class="nav-item">
               <a class="nav-link" href="/services">Services</a>
             </li>
-            @if(Auth::check() && Auth::user()->status==1 && (Auth::user()->isAdmin() || Auth::user()->isModerator() || Auth::user()->isUser()) && Auth::user()->status===1)
+            @if(Auth::check() && Auth::user()->status==1 && (Auth::user()->rola->role=="administrator" || Auth::user()->rola->role=="moderator" || Auth::user()->rola->role=="user") && Auth::user()->status===1)
               <li class="nav-item">
                 <a class="nav-link" href="/posts">Blog</a>
               </li>
             @endif
-            @if(Auth::check() && (Auth::user()->isAdmin() || Auth::user()->isModerator() || Auth::user()->isUser()) && Auth::user()->status===1)
+            @if(Auth::check() && (Auth::user()->rola->role=="administrator" || Auth::user()->rola->role=="moderator" || Auth::user()->rola->role=="user") && Auth::user()->status===1)
             <li class="nav-item">
               <a class="nav-link" href="/posts/create">Create Post</a>
             </li>
@@ -38,7 +38,7 @@
           <!-- Right Side Of Navbar -->
           <ul class="navbar-nav ml-auto">
               <!-- Authentication Links -->
-              <li class="nav-item"><a id="clock" class="nav-link" style="color: whitesmoke;"></a></li>
+              <li class="nav-item"><a id="clock" class="nav-link clock"></a></li>
               @guest
                   <li class="nav-item">
                       <a class="nav-link" href="{{ route('login') }}">{{ __('Login') }}</a>
@@ -52,7 +52,7 @@
                   <li class="nav-item dropdown">
                     
                       <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
-                          <img src="/storage/cover_images/{{Auth::user()->avatar}}" style="border-radius: 5px;"> {{ Auth::user()->name }} <span class="caret"></span>
+                          <img src="/storage/cover_images/{{Auth::user()->avatar}}" class="dashImg"> {{ Auth::user()->name }} <span class="caret"></span>
                       </a>
 
                       <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
@@ -63,7 +63,7 @@
                               {{ __('Logout') }}
                           </a>
 
-                          <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                          <form id="logout-form" action="{{ route('logout') }}" method="POST" class="DisplayNone">
                               @csrf
                           </form>
                       </div>

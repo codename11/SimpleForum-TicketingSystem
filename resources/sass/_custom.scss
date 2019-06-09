@@ -139,3 +139,54 @@ p,.footCompany{
     text-align:left;
     margin-left:0;
 }
+
+.nextPrev{
+    float:right;
+}
+
+.commCount{
+    border-bottom: 1px solid whitesmoke;
+}
+
+.noListStyle{
+    list-style-type:none;
+}
+
+.bodyComm{
+    background-color: whitesmoke; 
+    border-radius: 5px;padding: 5px;
+}
+
+.removedComm, .clock{
+    color: whitesmoke;
+}
+
+.repBody{
+    background-color: whitesmoke; 
+    border-radius: 5px;
+    padding: 5px;
+}
+
+.badge-counter{
+    background-color: whitesmoke; 
+    border: 1px solid silver;
+    vertical-align: top;
+}
+
+.authName{
+    border-radius: 5px;
+    float: left;
+    margin-right:10px;
+}
+
+.dashImg{
+    border-radius: 5px;
+}
+
+.DisplayNone{
+    display: none;
+}
+
+.mainContainer{
+    margin-bottom: 50px !important;
+}

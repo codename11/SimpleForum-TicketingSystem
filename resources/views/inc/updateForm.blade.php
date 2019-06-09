@@ -1,5 +1,5 @@
 
-<form method="POST" style="display:none;" class="replyForm" action="/posts/{{$post->id}}/comments/{{$comms[$i]->id}}" id="update{{$par->id}}">
+<form method="POST" class="replyForm DisplayNone" action="/posts/{{$post->id}}/comments/{{$comms[$i]->id}}" id="update{{$par->id}}">
                     
     <input id="{{$par->id}}" type="hidden" name="comment_id" value="{{$par->id}}" />
     <input type="hidden" name="post_id" value="{{$par->post_id }}" />

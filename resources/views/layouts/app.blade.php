@@ -24,10 +24,10 @@
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css" integrity="sha384-oS3vJWv+0UjzBfQzYUhtDYW+Pj2yciDJxpsK1OYPAYjqT085Qq/1cq5FLXAZQ7Ay" crossorigin="anonymous">
 </head>
 <body onload="startTime()">
-        <div id="app" style="display:none;"></div>
+        <div id="app" class="DisplayNone"></div>
     
         @include("inc.navbar")
-        <div class="container" style="margin-bottom: 50px !important;">
+        <div class="container mainContainer">
             @include("inc.messages")
             @yield("content")
         </div>
@@ -82,8 +82,8 @@ if(isset($route) && $route=="posts/{post}"){
 ?>
 <script type="text/javascript" defer>
     
-  let comments = {!!$comments!!}.filter((item) => {
-    if(item.parent_id===null){
+  let comments = {!!$comms!!}.filter((item) => {
+    if(item.parent_id===0){
       return item;
     }
   });
@@ -96,11 +96,11 @@ if(isset($route) && $route=="posts/{post}"){
   
   for(i=0;i<comments.length;i++){
 
-    if(comments[i].parent_id===null){
+    if(comments[i].parent_id===0){
       document.getElementById(""+comments[i].id).style.marginLeft = "0px";
     }
     
-    for(j=0;j<replies.length;j++){
+    for(j=i;j<replies.length;j++){
       
       if(comments[i].id===replies[j].parent_id){
 

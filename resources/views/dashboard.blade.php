@@ -18,7 +18,7 @@
 
                     You are logged in!<br>
                     
-                    @if(Auth::check() && (Auth::user()->isAdmin() || Auth::user()->isModerator() || Auth::user()->isUser()))
+                    @if(Auth::check() && (Auth::user()->rola->role=="administrator" || Auth::user()->rola->role=="moderator" || Auth::user()->rola->role=="user"))
                         <a href="/posts/create" class="btn btn-info">Create post</a>
                     @endif
                     
@@ -35,7 +35,7 @@
                             @foreach ($posts as $post)
                             <tr>
                                 <td>{{$post->title}}</td>
-                                @if(Auth::check() && (Auth::user()->isAdmin() || Auth::user()->isModerator() || Auth::user()->isUser()))
+                                @if(Auth::check() && (Auth::user()->rola->role=="administrator" || Auth::user()->rola->role=="moderator" || Auth::user()->rola->role=="user"))
                                     <td><a href="/posts/{{$post->id}}/edit" class="btn btn-primary">Edit</a></td>
                                     <td>
                                         {!!Form::open(["action" => ["PostsController@destroy", $post->id], "method" => "POST", "class" => "float-right"])!!}

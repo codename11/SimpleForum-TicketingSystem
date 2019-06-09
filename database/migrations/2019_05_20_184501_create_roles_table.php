@@ -22,7 +22,7 @@ class CreateRolesTable extends Migration
         //This 
         DB::table('roles')->insert(
             [ 
-                ["role" => "adminstrator", "created_at" => NOW(), "updated_at" => NOW()], 
+                ["role" => "administrator", "created_at" => NOW(), "updated_at" => NOW()], 
                 ["role" => "moderator", "created_at" => NOW(), "updated_at" => NOW()], 
                 ["role" => "user", "created_at" => NOW(), "updated_at" => NOW()],
                 ["role" => "peon", "created_at" => NOW(), "updated_at" => NOW()]

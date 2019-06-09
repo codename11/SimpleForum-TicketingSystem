@@ -15,7 +15,7 @@
                         <?php 
                             $boja = "";
                             if(Auth::check()){
-                                $boja = $item->user_id==Auth::user()->id ? "whitesmoke;border-radius: 5px;" : "";
+                                $boja = $item->user_id==->id ? "whitesmoke;border-radius: 5px;" : "";
                             }
                             
                         ?>
@@ -44,7 +44,7 @@
                             </div>
 
                             <div class="form-group fGroup">
-                                <input type="number" name="status" class="form-control" min="0" max="1" id="status" placeholder="Status..." value="{{$item->status}}" required @if(Auth::user()->role_id>2 && Auth::user()->role_id<=4) {{"disabled"}} @endif>
+                                <input type="number" name="status" class="form-control" min="0" max="1" id="status" placeholder="Status..." value="{{$item->status}}" required @if(Auth::user()->rola->role=="user" || Auth::user()->rola->role=="peon") {{"disabled"}} @endif>
                             </div>
 
                             <div class="form-group fGroup">

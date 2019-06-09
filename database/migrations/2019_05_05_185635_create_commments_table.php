@@ -23,6 +23,8 @@ class CreateCommmentsTable extends Migration
             $table->unsignedBigInteger("commenter_id");
             $table->foreign("commenter_id")->references("id")->on("users")->onDelete("cascade");
 
+            $table->tinyInteger('parent_id')->default("0")->nullable();
+
             $table->timestamps();
         });
     }

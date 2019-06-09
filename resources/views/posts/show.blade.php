@@ -8,7 +8,7 @@
         $errBody = $errors->has('body') ? 'shake' : '';
     ?>
     <a href="/posts" class="btn btn-outline-info btn-sm">Go Back</a>
-    <div style="float:right;">
+    <div class="nextPrev">
         <a href="/posts/{{$prev}}" class="btn btn-outline-success"><i class="fas fa-arrow-left"></i></a>
         <a href="/posts/{{$next}}" class="btn btn-outline-info"><i class="fas fa-arrow-right"></i></a>
     </div>
@@ -90,10 +90,10 @@
 
     <hr>
     @endauth
-    <h6 style="border-bottom: 1px solid whitesmoke;">Comments <span class="badge" style="background-color: whitesmoke; border: 1px solid silver;vertical-align: top;">{{count($comments)}}</span></h6>
+    <h6 class="commCount">Comments <span class="badge badge-counter">{{count($comms)+count($replies)}}</span></h6>
     <div class="container commContainer">
         
-        <ul class="list-group" style="list-style-type:none">
+        <ul class="list-group noListStyle">
 
             @if(count($comms) > 0)
 
@@ -101,14 +101,14 @@
                 
                     <li class="list-group-item py-2 commBody" parent_id="{{$comms[$i]->parent_id}}" id="{{$comms[$i]->id}}">
                             
-                        @if($comms[$i]->status!=0 && $comms[$i]->parent_id===null)
+                        @if($comms[$i]->status!=0 && $comms[$i]->parent_id===0)
                         
-                        <div><img src="/storage/cover_images/{{$comms[$i]->commentAuthor->avatar}}" style="border-radius: 5px;float: left;margin-right:10px;">{{$comms[$i]->commentAuthor->name}}</div><br>
-                        <div style="background-color: whitesmoke; border-radius: 5px;padding: 5px;">{{$comms[$i]->body}}</div>
+                        <div><img src="/storage/cover_images/{{$comms[$i]->commentAuthor->avatar}}" class="authName">{{$comms[$i]->commentAuthor->name}}</div><br>
+                        <div class="bodyComm">{{$comms[$i]->body}}</div>
                             
                         @else
 
-                            <p style="color: whitesmoke;">"This comment has been removed ..."</p>
+                            <p class="removedComm">"This comment has been removed ..."</p>
                             @include('inc.unDeleteForm', array('par' => $comms[$i]))
 
                         @endif
@@ -131,17 +131,17 @@
 
                         @for($j=$i;$j<count($replies);$j++)
 
-                            @if($comms[$i]->id==$replies[$j]->parent_id && $replies[$j]->parent_id!==null)
+                            @if($comms[$i]->id==$replies[$j]->parent_id && $replies[$j]->parent_id!==0)
     
                                 <li class="list-group-item py-2 commBody" parent_id="{{$replies[$j]->parent_id}}" id="{{$replies[$j]->id}}">
 
                                     @if($replies[$j]->status!=0)
-                                        <div><img src="/storage/cover_images/{{$replies[$j]->commentAuthor->avatar}}" style="border-radius: 5px;float: left;margin-right:10px;">{{$replies[$j]->commentAuthor->name}}</div><br>
-                                        <div style="background-color: whitesmoke; border-radius: 5px;padding: 5px;">{{$replies[$j]->body}}</div>
+                                        <div><img src="/storage/cover_images/{{$replies[$j]->commentAuthor->avatar}}" class="authName">{{$replies[$j]->commentAuthor->name}}</div><br>
+                                        <div class="repBody">{{$replies[$j]->body}}</div>
 
                                     @else
 
-                                        <p style="color: whitesmoke;">"This reply has been removed ..."</p>
+                                        <p class="removedComm">"This reply has been removed ..."</p>
                                         @include('inc.unDeleteForm', array('par' => $replies[$j]))
 
                                     @endif
@@ -159,20 +159,20 @@
                                 </li>
                                 <li class="horDiv"></li>
                             @endif
-
+                                
                             @for($k=$j;$k<count($replies);$k++)
 
-                                @if($replies[$k]->parent_id==$replies[$j]->id && $replies[$k]->parent_id!==null)
+                                @if($replies[$k]->parent_id==$replies[$j]->id && $replies[$k]->parent_id!==0)
 
                                     <li class="list-group-item py-2 commBody" parent_id="{{$replies[$k]->parent_id}}" id="{{$replies[$k]->id}}">
 
                                         @if($replies[$k]->status!=0)
-                                            <div><img src="/storage/cover_images/{{$replies[$k]->commentAuthor->avatar}}" style="border-radius: 5px;float: left;margin-right:10px;">{{$replies[$k]->commentAuthor->name}}</div><br>
-                                            <div style="background-color: whitesmoke; border-radius: 5px;padding: 5px;">{{$replies[$k]->body}}</div>
+                                            <div><img src="/storage/cover_images/{{$replies[$k]->commentAuthor->avatar}}" class="authName">{{$replies[$k]->commentAuthor->name}}</div><br>
+                                            <div class="repBody">{{$replies[$k]->body}}</div>
                                         
                                         @else
 
-                                            <p style="color: whitesmoke;">"This reply has been removed ..."</p>
+                                            <p class="removedComm">"This reply has been removed ..."</p>
                                             @include('inc.unDeleteForm', array('par' => $replies[$k]))
                                         @endif
 
@@ -189,16 +189,16 @@
                                     </li>
                                     <li class="horDiv"></li>
                                 @endif
-
+                                
                             @endfor
-
+                            
                         @endfor
-
+                        
                     @endif
                 
                 @endfor
 
             @endif
         </ul>
-
+        
 @endsection

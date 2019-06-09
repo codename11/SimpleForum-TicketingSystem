@@ -50,9 +50,9 @@ class CommentsController extends Controller
             "body" => $request->input("body"),
             "post_id" => intval($id),
             "commenter_id" => Auth::user()->id,
-            "imParent_id" => $request->input("comment_id")
+            "imParent_id" => $request->input("comment_id") ? $request->input("comment_id") : 0
         );
-        //dd($data);
+        
         $comment = new Comment;
         $comment->body = $data["body"];
         $comment->post_id = $data["post_id"];
@@ -63,10 +63,13 @@ class CommentsController extends Controller
 
         $post = Post::find($id);
         $comments = $post->comments;
+        
+        $comms = $post->comments()->where("parent_id", "=", 0)->with(["replies"])->get();
+        $replies =  $post->comments()->where("parent_id", "!=", 0)->with(["replies"])->get();
         //return redirect("/posts/{{$id}}")->with("success", "Post Created")->with('comments', $comments);
         //return view("posts.show")->with(compact('post', 'comments'));
         //with(['replies' => function($comments){ $comments->orderBy('parent_id') } ])
-        return back()->with('comments', $comments);
+        return back()->with(compact('comms',"replies", "comments"));
     }
 
     /**
@@ -140,8 +143,10 @@ class CommentsController extends Controller
 
         $post = Post::find($id);
         $comments = $post->comments;
+        $comms = $post->comments()->where("parent_id", "=", 0)->with(["replies"])->get();
+        $replies =  $post->comments()->where("parent_id", "!=", 0)->with(["replies"])->get();
         
-        return back()->with('comments', $comments);
+        return back()->with(compact('comments', "comms", "replies"));
 
     }
 
