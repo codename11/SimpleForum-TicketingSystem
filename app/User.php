@@ -16,7 +16,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password',
+        'name', 'email', 'password',"avatar"
     ];
 
     /**
@@ -52,28 +52,28 @@ class User extends Authenticatable
     public function isAdmin()
     {//dd($user);
         
-        return $this->rola()->where('role', 'administrator')->exists();
+        return $this->rola()->where('role', 'administrator');
         
     }
 
-    public function isModerator(User $user)
+    public function isModerator()
     {//dd($user);
         
-        return $this->rola()->where('role', 'moderator')->exists();
+        return $this->rola()->where('role', 'moderator');
         
     }
 
-    public function isUser(User $user)
+    public function isUser()
     {//dd($user);
         
-        return $this->rola()->where('role', 'user')->exists();
+        return $this->rola()->where('role', 'user');
         
     }
 
-    public function isPeon(User $user)
+    public function isPeon()
     {//dd($user);
         
-        return $this->rola()->where('role', 'peon')->exists();
+        return $this->rola()->where('role', 'peon');
         
     }
     

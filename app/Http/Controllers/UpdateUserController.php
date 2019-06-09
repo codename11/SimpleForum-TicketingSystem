@@ -45,9 +45,9 @@ class UpdateUserController extends Controller
         }*/
         
         $data = [];
-            
+       
         foreach($users as $user){
-            
+            //dump($user->name);  
             $userWithRole = new \stdClass();
             $userWithRole->user_id = $user->id;
             $userWithRole->name = $user->name;
@@ -55,6 +55,7 @@ class UpdateUserController extends Controller
             $userWithRole->role_id = $user->role_id;
             $userWithRole->status = $user->status;
             $userWithRole->role_name = User::find($user->id)->rola->role;
+            
             array_push($data,$userWithRole);
 
         }

@@ -2,7 +2,12 @@
 
 @section('content')
 <div class="container">
-
+        
+        <?php
+        if(Auth::user()->rola->id===Auth::user()->role_id){
+            echo Auth::user()->rola->id;
+        }
+        ?>
     <div class="row justify-content-center">
         <div class="col-md-8">
             <div class="card">
@@ -18,7 +23,7 @@
 
                     You are logged in!<br>
                     
-                    @if(Auth::check() && Auth::user()->role_id<4 && Auth::user()->role_id>0)
+                    @if(Auth::check() && (Auth::user()->isAdmin() || Auth::user()->isModerator() || Auth::user()->isUser()))
                         <a href="/posts/create" class="btn btn-info">Create post</a>
                     @endif
                     
@@ -35,7 +40,7 @@
                             @foreach ($posts as $post)
                             <tr>
                                 <td>{{$post->title}}</td>
-                                @if(Auth::check() && Auth::user()->role_id<4 && Auth::user()->role_id>0)
+                                @if(Auth::check() && (Auth::user()->isAdmin() || Auth::user()->isModerator() || Auth::user()->isUser()))
                                     <td><a href="/posts/{{$post->id}}/edit" class="btn btn-primary">Edit</a></td>
                                     <td>
                                         {!!Form::open(["action" => ["PostsController@destroy", $post->id], "method" => "POST", "class" => "float-right"])!!}

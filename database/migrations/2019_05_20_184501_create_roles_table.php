@@ -20,14 +20,14 @@ class CreateRolesTable extends Migration
         });
 
         //This 
-        /*DB::table('roles')->insert(
+        DB::table('roles')->insert(
             [ 
-                ["role" => "adminstrator"], 
-                ["role" => "moderator"], 
-                ["role" => "user"],
-                ["role" => "peon"]
+                ["role" => "adminstrator", "created_at" => NOW(), "updated_at" => NOW()], 
+                ["role" => "moderator", "created_at" => NOW(), "updated_at" => NOW()], 
+                ["role" => "user", "created_at" => NOW(), "updated_at" => NOW()],
+                ["role" => "peon", "created_at" => NOW(), "updated_at" => NOW()]
             ]
-        );*/
+        );
         //
 
         //Or this

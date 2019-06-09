@@ -85,7 +85,7 @@ class PostsController extends Controller
             "body" => "required",
             "cover_image" => "image|nullable"
         ]);
-        
+        //dd($request["cover_image"]);
         if($request->hasFile("cover_image")){
             $filenameWithExt = $request->file("cover_image")->getClientOriginalName();
             $filename = pathinfo($filenameWithExt, PATHINFO_FILENAME);

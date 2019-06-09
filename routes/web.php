@@ -52,7 +52,5 @@ Route::resource("/posts/{id}/comments", "CommentsController");
 
 Auth::routes();
 
-
-
 Route::get('/dashboard', 'DashboardController@index');
 

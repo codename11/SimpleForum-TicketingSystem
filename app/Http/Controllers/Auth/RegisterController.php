@@ -7,7 +7,10 @@ use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Foundation\Auth\RegistersUsers;
-
+use Illuminate\Http\Request;
+use Illuminate\http\UploadedFile;
+use Illuminate\Support\Facades\Storage;
+use Intervention\Image\ImageManagerStatic as Image;
 class RegisterController extends Controller
 {
     /*
@@ -52,7 +55,9 @@ class RegisterController extends Controller
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
             'password' => ['required', 'string', 'min:8', 'confirmed'],
+            "avatar" => ["image", "nullable", "max:2048"]
         ]);
+        //dd($data);
     }
 
     /**
@@ -63,10 +68,32 @@ class RegisterController extends Controller
      */
     protected function create(array $data)
     {
+
+        $fileNameToStore = "";
+        if(array_key_exists('avatar', $data)){
+            $filenameWithExt = $data['avatar']->getClientOriginalName();
+            $filename = pathinfo($filenameWithExt, PATHINFO_FILENAME);
+            $extension = $data['avatar']->getClientOriginalExtension();
+            $fileNameToStore = $filename."_".time().".".$extension;
+        
+            $img = \Image::make($data['avatar']);
+            $path = str_replace("/","\\",addcslashes(public_path('storage/cover_images/'.$fileNameToStore),"\f\r\n\t"));
+            $img->resize(32, 32)->save($path);
+        
+            //dd($fileNameToStore);
+            
+        }
+        else{
+            $fileNameToStore = "user.jpg";
+        }
+
         return User::create([
             'name' => $data['name'],
             'email' => $data['email'],
             'password' => Hash::make($data['password']),
+            "avatar" => $fileNameToStore
         ]);
+
     }
+
 }
