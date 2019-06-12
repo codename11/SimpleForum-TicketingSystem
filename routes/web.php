@@ -38,6 +38,7 @@ Route::resource('/userList', "UpdateUserController");
 Route::get('/about', "PagesController@about");
 
 Route::get('/services', "PagesController@services");
+Route::post('/profile/{id}', "PostsController@store");
 
 Route::resource("posts", "PostsController");
 //Route::resource("posts", "PostsController")->middleware("can:checkIfAuthorized,post");
@@ -53,4 +54,7 @@ Route::resource("/posts/{id}/comments", "CommentsController");
 Auth::routes();
 
 Route::get('/dashboard', 'DashboardController@index');
+Route::get('/profile/{id}', 'ProfileController@show');
+//Route::post('/profile/{id}', 'ProfileController@store');
+
 

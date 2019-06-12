@@ -132,7 +132,7 @@
                         @for($j=$i;$j<count($replies);$j++)
 
                             @if($comms[$i]->id==$replies[$j]->parent_id && $replies[$j]->parent_id!==0)
-    
+                                        
                                 <li class="list-group-item py-2 commBody" parent_id="{{$replies[$j]->parent_id}}" id="{{$replies[$j]->id}}">
 
                                     @if($replies[$j]->status!=0)
@@ -163,7 +163,7 @@
                             @for($k=$j;$k<count($replies);$k++)
 
                                 @if($replies[$k]->parent_id==$replies[$j]->id && $replies[$k]->parent_id!==0)
-
+                                        
                                     <li class="list-group-item py-2 commBody" parent_id="{{$replies[$k]->parent_id}}" id="{{$replies[$k]->id}}">
 
                                         @if($replies[$k]->status!=0)

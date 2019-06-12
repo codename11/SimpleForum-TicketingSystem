@@ -43,5 +43,5 @@
         </div>
            
     </form>
-    <button class="btn btn-outline-primary" data-toggle="modal" data-target="#myModal">Update Post</button>
+    <button class="btn btn-outline-primary" data-toggle="modal" data-target="#myModal" style="margin-bottom: 30px;">Update Post</button>
 @endsection

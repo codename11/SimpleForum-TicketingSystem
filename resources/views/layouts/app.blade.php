@@ -22,15 +22,24 @@
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.0/animate.css" rel="stylesheet">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css" integrity="sha384-oS3vJWv+0UjzBfQzYUhtDYW+Pj2yciDJxpsK1OYPAYjqT085Qq/1cq5FLXAZQ7Ay" crossorigin="anonymous">
-</head>
+    <link rel='stylesheet' href='https://fonts.googleapis.com/css?family=Open+Sans'>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  </head>
 <body onload="startTime()">
         <div id="app" class="DisplayNone"></div>
-    
-        @include("inc.navbar")
-        <div class="container mainContainer">
+        
+        @if(Route::getFacadeRoot()->current()->uri()!=="/profile/{id}")
+          @include("inc.navbar")
+          <div class="container mainContainer" style="margin-top: 70px;">
             @include("inc.messages")
             @yield("content")
-        </div>
+          </div>
+
+        @else
+          @yield("content")
+        @endif
+        
+        
     
     <script src="/ckeditor/ckeditor.js"></script>
     <script>
@@ -39,7 +48,7 @@
         }
     </script>
 
-    <div class="footer navbar-dark bg-dark">
+    <div class="footer navbar-dark bg-dark" style="z-index: 999;">
         <p class="mt-1" class="footCompany">© 2017-2019 Company Name</p>
         <ul class="list-inline">
             <li class="list-inline-item"><a class="footLinks" href="#">Privacy</a></li>
@@ -128,6 +137,56 @@ if(isset($route) && $route=="posts/{post}"){
 <?php
   }
 ?>  
+<script>
+// Accordion
+function myFunction(id) {
+  var elem = document.getElementById(id);
+  if(elem){
 
+    if (elem.className.indexOf("w3-show") == -1) {
+      elem.className += " w3-show";
+      elem.previousElementSibling.className += " w3-theme-d1";
+    }
+    else{ 
+      elem.className = elem.className.replace("w3-show", "");
+      elem.previousElementSibling.className = 
+      elem.previousElementSibling.className.replace(" w3-theme-d1", "");
+    }
+
+  }
+  
+}
+
+// Used to toggle the menu on smaller screens when clicking on the menu button
+function openNav() {
+  let navDemo = document.getElementById("navDemo");
+
+  if(navDemo){
+
+    if (navDemo.className.indexOf("w3-show") == -1) {
+      navDemo.className += " w3-show";
+    }
+    else { 
+      navDemo.className = navDemo.className.replace(" w3-show", "");
+    }
+
+  }
+  
+}
+
+document.addEventListener("focus",function(e){
+
+  if(CKEDITOR.instances["editable"]){
+    if(e.target.id == "editable"){
+        CKEDITOR.replace('editable');
+    }
+    else{
+        CKEDITOR.instances["editable"].destroy();
+    }
+  }
+    
+
+}, true);
+</script>
 </body>
 </html>

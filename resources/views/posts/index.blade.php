@@ -40,7 +40,11 @@
                     <hr class="hrStyle">
                 @endforeach
                 
-                {{$posts->links()}}
+                <div class="d-flex" style="margin: 10px 0px;padding-top: 20px;">
+                    <div class="mx-auto" style="line-height: 10px;">
+                        {{$posts->links("pagination::bootstrap-4")}}
+                    </div>
+                </div>
             @else
                 <p>No posts found</p>
             @endif

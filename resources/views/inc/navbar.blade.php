@@ -1,4 +1,4 @@
-<nav id="myNavbar" class="navbar navbar-expand-md navbar-dark bg-dark">
+<nav id="myNavbar" class="navbar navbar-expand-md navbar-dark bg-dark sticky-top">
   <div class="container">
       <a class="navbar-brand" href="{{ url('/') }}">
           {{ config('app.name', 'Laravel') }}
@@ -8,7 +8,7 @@
       </button>
 
       <div class="collapse navbar-collapse" id="navbarSupportedContent">
-          <!-- Left Side Of Navbar -->
+          
           <ul class="navbar-nav mr-auto">
 
           </ul>
@@ -33,11 +33,16 @@
               <a class="nav-link" href="/posts/create">Create Post</a>
             </li>
             @endif
+
+            @if(Auth::check() && (Auth::user()->rola->role=="administrator" || Auth::user()->rola->role=="moderator" || Auth::user()->rola->role=="user") && Auth::user()->status===1)
+            <li class="nav-item">
+              <a class="nav-link" href="/profile/{{auth()->user()->id}}">Profile</a>
+            </li>
+            @endif
           </ul>
 
-          <!-- Right Side Of Navbar -->
           <ul class="navbar-nav ml-auto">
-              <!-- Authentication Links -->
+              
               <li class="nav-item"><a id="clock" class="nav-link clock"></a></li>
               @guest
                   <li class="nav-item">
@@ -73,3 +78,4 @@
       </div>
   </div>
 </nav>
+

@@ -12,6 +12,7 @@ use Auth;
 use Illuminate\Support\Facades\Storage;
 use App\Mail\PostCreated;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Route;
 class PostsController extends Controller
 {
 
@@ -33,8 +34,6 @@ class PostsController extends Controller
         $admins = User::whereHas('rola', function($q){$q->whereIn('role', ['user']);})->get();
         dd($admins);*/
 
-        $comments = Comment::all();
-        
         //$posts = Post::all();
         //$posts = Post::orderBy("created_at","desc")->get();
         //$posts = Post::orderBy("created_at","desc")->take(1)->get();
@@ -48,12 +47,12 @@ class PostsController extends Controller
         else{
             $posts = Post::orderBy("created_at","desc")->paginate(5);
         }*/
+        
         $posts = Post::orderBy("created_at","desc")->paginate(5);
-        $comms = $posts->comments()->where("parent_id", "=", 0)->with(["replies"])->get();
-        $replies =  $posts->comments()->where("parent_id", "!=", 0)->with(["replies"])->get();
+        $comments = Comment::all();
         //dump($posts);
         
-        return view("posts.index")->with(compact("posts", "comments", "comms", "replies"));
+        return view("posts.index")->with(compact("posts", "comments"));
     }
 
     /**
@@ -86,12 +85,13 @@ class PostsController extends Controller
         ]); 
         */
         
+        //dd($request["title"],$request["body"],$request["cover_image"]);
         $this->validate($request, [
             "title" => "required|min:4|max:12",
             "body" => "required",
             "cover_image" => "image|nullable"
         ]);
-        //dd($request["cover_image"]);
+        //dd($request["title"],$request["body"],$request["cover_image"]);
         if($request->hasFile("cover_image")){
             $filenameWithExt = $request->file("cover_image")->getClientOriginalName();
             $filename = pathinfo($filenameWithExt, PATHINFO_FILENAME);
@@ -102,7 +102,7 @@ class PostsController extends Controller
         else{
             $fileNameToStore = "noimage.jpg";
         }
-
+        
         $post = new Post;
         $post->title = $request->input("title");
         $post->body = $request->input("body");
@@ -115,6 +115,13 @@ class PostsController extends Controller
             new PostCreated($post)
 
         );
+
+        if($request->has("profile_id")) {
+            $user = User::find(auth()->user()->id);
+            $posts = Post::all();
+
+            return back()->with(compact("user", "posts"));
+        }
         
         return redirect("/posts")->with("success", "Post Created");
     }
@@ -169,8 +176,9 @@ class PostsController extends Controller
         ];*/
         $prev = $post->prev($post);
         $next = $post->next($post);
-        
-        return view("posts.show")->with(compact("post", "prev", "next", "comms", "replies"));
+        $jason = response()->json($comments);
+        //return view("posts.show")->with(compact("jason"));
+        return view("posts.show")->with(compact("post", "prev", "next", "comms", "replies", "comments", "jason"));
     }
 
     /**

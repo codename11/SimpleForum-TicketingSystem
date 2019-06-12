@@ -13,5 +13,7 @@
             <a class="nav-link {{$route=="userList" ? "active" : ""}}" href="/userList">User list</a>
         </li>
     @endif
-
+    <li class="nav-item">
+        <a class="nav-link {{$route=="profile" ? "active" : ""}}" href="/profile/{{auth()->user()->id}}">Profile</a>
+    </li>
 </ul>

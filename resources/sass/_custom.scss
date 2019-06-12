@@ -190,3 +190,61 @@ p,.footCompany{
 .mainContainer{
     margin-bottom: 50px !important;
 }
+
+.grid-items {
+    text-align: center;
+}
+
+a{
+    text-decoration: none !important;
+}
+
+body > div:nth-child(2) > div:nth-child(1) > a.w3-bar-item.w3-button.w3-hide-medium.w3-hide-large.w3-right.w3-padding-large.w3-hover-white.w3-large.w3-theme-d2{
+    position: absolute;
+    right: 0px;
+}
+
+.w3-bar-item{
+    height: 100% !important;
+}
+.grid-con{
+    position: fixed;
+    width: 100%;
+    z-index:1;
+    top: 0;
+    display: grid; 
+    grid-template-columns: auto auto auto auto auto;
+    padding-top: 0;
+    padding-bottom: 0;
+}
+
+.grid-items{
+    
+}
+@media screen and (max-width: 768px) {
+    
+    .grid-con{
+        font-size: 12px !important;
+    }
+
+    .w3-padding-large {
+        padding: 8px 16px !important;
+    }
+
+    body > div.w3-theme-d2.w3-large.grid-con > div:nth-child(1) > a.w3-bar-item.w3-button.w3-hide-medium.w3-hide-large.w3-right.w3-padding-large.w3-hover-white.w3-large.w3-theme-d2{
+        padding-bottom: 12px !important;
+    }
+}
+
+#myNavbar{
+    background-color: #4d636f !important;
+    color: #fff !important;
+    font-size: 18px !important;
+    font-family: Verdana, sans-serif;
+    line-height: 1.5;
+}
+
+#navbarSupportedContent > ul:nth-child(2){
+    margin-left: auto;
+    margin-right: auto;
+}

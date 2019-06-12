@@ -15,7 +15,7 @@
                         <?php 
                             $boja = "";
                             if(Auth::check()){
-                                $boja = $item->user_id==->id ? "whitesmoke;border-radius: 5px;" : "";
+                                $boja = $item->user_id==auth()->user()->id ? "whitesmoke;border-radius: 5px;" : "";
                             }
                             
                         ?>
