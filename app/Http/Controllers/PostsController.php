@@ -160,7 +160,7 @@ class PostsController extends Controller
         /*This twos are gold!*/
 
         $post = Post::find($id);  
-        $this->authorize('checkIfAuthorized', $post);
+        //$this->authorize('checkIfAuthorized', $post);
         $comments = $post->comments;
         //dump($comments);
         

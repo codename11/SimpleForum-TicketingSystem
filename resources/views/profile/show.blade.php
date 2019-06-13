@@ -5,7 +5,7 @@
 <body class="w3-theme-l5">
 
 <!-- Page Container -->
-<div class="w3-container w3-content" style="max-width:1400px;margin-top:80px">    
+<div class="w3-container w3-content" style="max-width:100%;margin-top:80px">    
   <!-- The Grid -->
   <div class="w3-row">
     <!-- Left Column -->
@@ -90,9 +90,22 @@
             <span class="w3-right w3-opacity">{{$post->created_at->diffForHumans()}}</span>
             <h4>{{$post->user->name}}</h4><br>
             <hr class="w3-clear">
-            <a href="/posts/{{$post->id}}" class="noDec" style="color: #15aabf;font-size: 1em;text-align: center;vertical-align: middle;"><i class="fas fa-angle-double-right"></i> Go to post</a><br> 
-            <div style="background-color: whitesmoke; padding: 10px;border-radius: 5px; text-align: justify;">{!!$post->body!!}</div><br>
+            <?php 
+              if(strlen($post->body) > 400){
+                $bod = substr($post->body,0,400);
               
+            ?>
+            <div style="background-color: whitesmoke; padding: 10px;border-radius: 5px; text-align: center;">{!!$bod!!}<a href='/posts/{{$post->id}}' class='noDec' style='color: #15aabf;font-size: 1em;text-align: center;'>...Read more</a></div><br>
+            <?php
+              }
+              else{
+            ?>
+                <a href='/posts/{{$post->id}}' class='noDec' style='color: #15aabf;font-size: 1em;text-align: center;vertical-align: middle;'><i class='fas fa-angle-double-right'></i> Go to post</a>
+                <div style="background-color: whitesmoke; padding: 10px;border-radius: 5px; text-align: justify;">{!!$post->body!!}</div><br>
+            <?php
+                
+              }
+            ?>
             <button type="button" class="w3-button w3-theme-d1 w3-margin-bottom"><i class="fa fa-thumbs-up"></i>  Like</button> 
             <button type="button" class="w3-button w3-theme-d2 w3-margin-bottom"><i class="fa fa-comment"></i>  Comment</button> 
           </div>

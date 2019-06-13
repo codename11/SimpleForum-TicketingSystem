@@ -19,7 +19,7 @@ class PostPolicy
      */
     public function view(User $user)
     {
-        return $user->role_id<4 && $user->status==1;
+        return ($user->isAdmin() || $user->isModerator() || $user->isUser()) && $user->status==1;
     }
 
     /**
@@ -30,7 +30,7 @@ class PostPolicy
      */
     public function create(User $user)
     {
-        return ($user->role_id>0 && $user->role_id<4 && $user->status==1);
+        return (($user->isAdmin() || $user->isModerator() || $user->isUser()) && $user->status==1);
     }
 
     /**

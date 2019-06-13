@@ -27,18 +27,20 @@
   </head>
 <body onload="startTime()">
         <div id="app" class="DisplayNone"></div>
-        
-        @if(Route::getFacadeRoot()->current()->uri()!=="/profile/{id}")
-          @include("inc.navbar")
-          <div class="container mainContainer" style="margin-top: 70px;">
-            @include("inc.messages")
-            @yield("content")
-          </div>
-
-        @else
-          @yield("content")
+        <?php
+          $conflu = "";
+        ?>
+        @if(Route::getFacadeRoot()->current()->uri()=="profile/{id}")
+          <?php
+            $conflu = "-fluid";
+          ?>
         @endif
         
+        @include("inc.navbar")
+        <div class="container{{$conflu}} mainContainer" style="margin-top: 70px;">
+          @include("inc.messages")
+          @yield("content")
+        </div>
         
     
     <script src="/ckeditor/ckeditor.js"></script>
