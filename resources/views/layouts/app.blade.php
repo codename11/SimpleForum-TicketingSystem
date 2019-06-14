@@ -37,7 +37,7 @@
         @endif
         
         @include("inc.navbar")
-        <div class="container{{$conflu}} mainContainer" style="margin-top: 70px;">
+        <div class="container mainContainer" style="margin-top: 70px;">
           @include("inc.messages")
           @yield("content")
         </div>
@@ -89,7 +89,7 @@
 <?php 
 $route = Route::getFacadeRoot()->current()->uri();
 
-if(isset($route) && $route=="posts/{post}"){
+if(isset($route) && ($route=="posts/{post}" || $route=="profile/{id}") && isset($comms) && isset($replies)){
 ?>
 <script type="text/javascript" defer>
     

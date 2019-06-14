@@ -4,6 +4,8 @@ namespace App\Policies;
 
 use App\User;
 use App\Post;
+use App\Roles;
+
 use Illuminate\Auth\Access\HandlesAuthorization;
 
 class PostPolicy
@@ -19,7 +21,7 @@ class PostPolicy
      */
     public function view(User $user)
     {
-        return ($user->isAdmin() || $user->isModerator() || $user->isUser()) && $user->status==1;
+        return (($user->isAdmin() || $user->isModerator() || $user->isUser()) && $user->status==1);
     }
 
     /**
@@ -29,8 +31,8 @@ class PostPolicy
      * @return mixed
      */
     public function create(User $user)
-    {
-        return (($user->isAdmin() || $user->isModerator() || $user->isUser()) && $user->status==1);
+    { 
+        return (($user->isAdmin || $user->isModerator || $user->isUser) && $user->status==1);
     }
 
     /**
@@ -42,7 +44,7 @@ class PostPolicy
      */
     public function update(User $user)
     {
-        return (($user->isAdmin() || $user->isModerator()) && $user->status==1);
+        return ($user->id==$post->user_id && $user->status==1);
     }
 
     public function checkIfAuthorized(User $user, Post $post)
@@ -52,7 +54,7 @@ class PostPolicy
         dump($post->user_id." ".gettype($post->user_id));
         dump($user->id===$post->user_id);*/
         
-        return (($user->isAdmin() || $user->isModerator()) && $user->status==1);
+        return (($user->isAdmin() || $user->isModerator() || $user->isUser()) && $user->status==1);
         /*if($user->id!==$post->user_id){
             return redirect("/posts")->with("error", "Unauthorized page");
         }*/
@@ -68,7 +70,7 @@ class PostPolicy
      */
     public function delete(User $user)
     {
-        return (($user->isAdmin() || $user->isModerator()) && $user->status==1);
+        return (($user->id==$post->user_id || $user->isAdmin() || $user->isModerator()) && $user->status==1);
     }
 
     /**

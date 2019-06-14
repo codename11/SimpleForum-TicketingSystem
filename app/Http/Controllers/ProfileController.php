@@ -49,9 +49,9 @@ class ProfileController extends Controller
      */
     public function show($id)
     {
-       
-       $user = User::find($id);
-       $posts = Post::orderBy("created_at","desc")->paginate(5);
+        $user = User::find($id);
+        $posts = Post::orderBy("created_at","desc")->paginate(5);
+        
        //dd($posts);
        return view("profile.show")->with(compact("user", "posts"));
     }

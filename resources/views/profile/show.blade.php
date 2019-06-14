@@ -9,10 +9,10 @@
   <!-- The Grid -->
   <div class="w3-row">
     <!-- Left Column -->
-    <div class="w3-col m4">
+    <div class="w3-col m3 p-1" style="font-size: 12px;">
       <!-- Profile -->
       <div class="w3-card w3-round w3-white">
-        <div class="w3-container">
+        <div class="w3-container text-align: justify;">
             <h4 class="w3-center">My Profile</h4>
             <p class="w3-center"><img src="/storage/cover_images/{{$user->avatar}}" class="w3-circle" style="height:106px;width:106px" alt="Avatar"></p>
             <hr>
@@ -38,7 +38,7 @@
     </div>
     
     <!-- Middle Column -->
-    <div class="w3-col m6" style="margin-bottom: 50px;">
+    <div class="w3-col m7 p-1" style="margin-bottom: 50px;">
     
       <div class="w3-row-padding">
         <div class="w3-col m12">
@@ -50,26 +50,29 @@
                     $errTitle = $errors->has('title') ? 'border-danger' : '';
                     $errBody = $errors->has('body') ? 'border-danger' : '';
                 ?>
-                <form method="POST" action="/profile/{{$user->id}}" enctype="multipart/form-data"> 
-                    @csrf
-                    <input id="profile_id" name="profile_id" type="hidden" value="{{$user->id}}">
-                    <!-- https://laravel.com/docs/5.7/validation#available-validation-rules -->
-                    <div class="form-group">
-                        <input class="w3-border w3-padding {{$errTitle}}" style="width: 100%;" type="text" name="title" placeholder="Post title" required value="{{old('title')}}">
-                    </div>
-                    <div class="form-group">
-                        <textarea id="editable" rows="1" class="w3-border w3-padding {{$errBody}}" style="width: 100%;" name="body" placeholder="Post body" required value="{{old('body')}}"></textarea>
-                    </div>
-        
-                    <div class="form-group">
-                        <input type="file" name="cover_image" id="cover_image">
-                    </div>
+                @auth
+                  @if(Auth::check() && (Auth::user()->isAdmin() || Auth::user()->isModerator() || Auth::user()->isUser()) && Auth::user()->status!=0)
+                    <form method="POST" action="/profile/{{$user->id}}" enctype="multipart/form-data"> 
+                        @csrf
+                        <input id="profile_id" name="profile_id" type="hidden" value="{{$user->id}}">
+                        <!-- https://laravel.com/docs/5.7/validation#available-validation-rules -->
+                        <div class="form-group">
+                            <input class="w3-border w3-padding {{$errTitle}}" style="width: 100%;" type="text" name="title" placeholder="Post title" required value="{{old('title')}}">
+                        </div>
+                        <div class="form-group">
+                            <textarea id="editable" rows="1" class="w3-border w3-padding {{$errBody}}" style="width: 100%;" name="body" placeholder="Post body" required value="{{old('body')}}"></textarea>
+                        </div>
+            
+                        <div class="form-group">
+                            <input type="file" name="cover_image" id="cover_image">
+                        </div>
 
-                    <div>
-                        <button type="submit" class="w3-button w3-theme"><i class="fas fa-feather-alt"></i>  Post</button> 
-                    </div>
-                </form>
-
+                        <div>
+                            <button type="submit" class="w3-button w3-theme"><i class="fas fa-feather-alt"></i>  Post</button> 
+                        </div>
+                    </form>
+                  @endif
+                @endauth
             </div>
           </div>
         </div>
@@ -106,8 +109,155 @@
                 
               }
             ?>
-            <button type="button" class="w3-button w3-theme-d1 w3-margin-bottom"><i class="fa fa-thumbs-up"></i>  Like</button> 
-            <button type="button" class="w3-button w3-theme-d2 w3-margin-bottom"><i class="fa fa-comment"></i>  Comment</button> 
+
+            <!--Comments for particular post-->
+            <?php
+
+            $comms = $post->comments()->where("parent_id", "=", 0)->with(["replies"])->get();
+            $replies =  $post->comments()->where("parent_id", "!=", 0)->with(["replies"])->get();
+
+            ?>
+            <a href="#" style="float: left;color: gray;font-size: 0.7em">Likes <span class="badge">{{$post->likes}}</span></a>
+            <a href="#" onclick="toggleForm('comment{{$post->id}}')" style="float: right;color: gray;font-size: 0.7em"> Comments <span class="badge">@if((count($comms)+count($replies)) > 0) {{count($comms)+count($replies)}} @endif</span></a>
+            
+            <hr>
+            <div style="display:block;">
+              <form method="POST" action="/posts/{{$post->id}}/{{auth()->user()->id}}" style="display:inline-block;">
+                @csrf
+                <div>
+                  <button type="submit" class="w3-button w3-theme-d1 w3-margin-bottom"><i class="fa fa-thumbs-up"></i>  Like</button> 
+                </div>
+                
+              </form>
+
+              <button type="button" class="w3-button w3-theme-d2 w3-margin-bottom" onclick="toggleForm('comment{{$post->id}}')" style="display:inline-block;"><i class="fa fa-comment"></i>  Comment</button>
+            </div>
+              <div  id="comment{{ $post->id }}" style="display: none;">
+                <form method="POST" action="/posts/{{$post->id}}/comments">
+                  @csrf
+                  <!-- https://laravel.com/docs/5.7/validation#available-validation-rules -->
+                  
+                  <div class="form-group animated {{$errBody}}">
+                      <textarea id="ckeditor" class="form-control" name="body" placeholder="Post body" required value=""></textarea>
+                  </div>
+      
+                  <div>
+                      <button type="submit" class="btn btn-outline-success btn-sm">Post comment</button>
+                  </div>
+                  
+                </form>
+
+                <div class="container commContainer">
+            
+                  <ul class="list-group noListStyle">
+          
+                      @if(count($comms) > 0)
+          
+                          @for($i=0;$i<count($comms);$i++)
+                          
+                              <li class="list-group-item py-2 commBody" parent_id="{{$comms[$i]->parent_id}}" id="{{$comms[$i]->id}}">
+                                      
+                                  @if($comms[$i]->status!=0 && $comms[$i]->parent_id===0)
+                                  
+                                  <div><img src="/storage/cover_images/{{$comms[$i]->commentAuthor->avatar}}" class="authName">{{$comms[$i]->commentAuthor->name}}</div><br>
+                                  <div class="bodyComm">{{$comms[$i]->body}}</div>
+                                      
+                                  @else
+          
+                                      <p class="removedComm">"This comment has been removed ..."</p>
+                                      @include('inc.unDeleteForm', array('par' => $comms[$i]))
+          
+                                  @endif
+          
+                                  @if(Auth::check() && (Auth::user()->rola->role=="administrator" || Auth::user()->rola->role=="moderator") && $comms[$i]->status!=0)
+          
+                                      <br><span class="btn btn-outline-primary btn-sm smaller" onclick="toggleForm('reply{{ $comms[$i]->id }}')";>reply</span>
+                                      @include('inc.replyForm', array('par' => $comms[$i]))
+                                      <span class="btn btn-outline-success btn-sm smaller" onclick="toggleForm('update{{ $comms[$i]->id }}')";>update</span>
+                                      @include('inc.updateForm', array('par' => $comms[$i]))
+                                      @include('inc.deleteForm', array('par' => $comms[$i]))
+                                    
+                                  @endif
+          
+                              </li>
+          
+                              <li class="horDiv"></li>
+          
+                              @if(count($replies) > 0)
+          
+                                  @for($j=$i;$j<count($replies);$j++)
+          
+                                      @if($comms[$i]->id==$replies[$j]->parent_id && $replies[$j]->parent_id!==0)
+                                                  
+                                          <li class="list-group-item py-2 commBody" parent_id="{{$replies[$j]->parent_id}}" id="{{$replies[$j]->id}}">
+          
+                                              @if($replies[$j]->status!=0)
+                                                  <div><img src="/storage/cover_images/{{$replies[$j]->commentAuthor->avatar}}" class="authName">{{$replies[$j]->commentAuthor->name}}</div><br>
+                                                  <div class="repBody">{{$replies[$j]->body}}</div>
+          
+                                              @else
+          
+                                                  <p class="removedComm">"This reply has been removed ..."</p>
+                                                  @include('inc.unDeleteForm', array('par' => $replies[$j]))
+          
+                                              @endif
+          
+                                              @if(Auth::check() && (Auth::user()->rola->role=="administrator" || Auth::user()->rola->role=="moderator") && $replies[$j]->status!=0)
+          
+                                                  <br><span class="btn btn-outline-primary btn-sm smaller" onclick="toggleForm('reply{{ $replies[$j]->id }}')";>reply</span>
+                                                  @include('inc.replyForm', array('par' => $replies[$j]))
+                                                  <span class="btn btn-outline-success btn-sm smaller" onclick="toggleForm('update{{ $replies[$j]->id }}')";>update</span>
+                                                  @include('inc.updateForm', array('par' => $replies[$j]))
+                                                  @include('inc.deleteForm', array('par' => $replies[$j]))
+          
+                                              @endif
+          
+                                          </li>
+                                          <li class="horDiv"></li>
+                                      @endif
+                                          
+                                      @for($k=$j;$k<count($replies);$k++)
+          
+                                          @if($replies[$k]->parent_id==$replies[$j]->id && $replies[$k]->parent_id!==0)
+                                                  
+                                              <li class="list-group-item py-2 commBody" parent_id="{{$replies[$k]->parent_id}}" id="{{$replies[$k]->id}}">
+          
+                                                  @if($replies[$k]->status!=0)
+                                                      <div><img src="/storage/cover_images/{{$replies[$k]->commentAuthor->avatar}}" class="authName">{{$replies[$k]->commentAuthor->name}}</div><br>
+                                                      <div class="repBody">{{$replies[$k]->body}}</div>
+                                                  
+                                                  @else
+          
+                                                      <p class="removedComm">"This reply has been removed ..."</p>
+                                                      @include('inc.unDeleteForm', array('par' => $replies[$k]))
+                                                  @endif
+          
+                                                  @if(Auth::check() && (Auth::user()->rola->role=="administrator" || Auth::user()->rola->role=="moderator") && $replies[$k]->status!=0)
+          
+                                                      <br><span class="btn btn-outline-primary btn-sm smaller" onclick="toggleForm('reply{{ $replies[$k]->id }}')";>reply</span>
+                                                      @include('inc.replyForm', array('par' => $replies[$k]))
+                                                      <span class="btn btn-outline-success btn-sm smaller" onclick="toggleForm('update{{ $replies[$k]->id }}')";>update</span>
+                                                      @include('inc.updateForm', array('par' => $replies[$k]))
+                                                      @include('inc.deleteForm', array('par' => $replies[$k]))
+          
+                                                  @endif
+          
+                                              </li>
+                                              <li class="horDiv"></li>
+                                          @endif
+                                          
+                                      @endfor
+                                      
+                                  @endfor
+                                  
+                              @endif
+                          
+                          @endfor
+          
+                      @endif
+                  </ul>
+              </div>
+            </div>
           </div>
 
         @endforeach
@@ -124,7 +274,7 @@
     </div>
     
     <!-- Right Column -->
-    <div class="w3-col m2">
+    <div class="w3-col m2 p-1">
       <div class="w3-card w3-round w3-white w3-center">
         <div class="w3-container">
           <p>Upcoming Events:</p>

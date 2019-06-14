@@ -6,7 +6,7 @@
             <div class="col-md-4 order-md-2 mb-4">
 
                 <h4 class="d-flex justify-content-between align-items-center mb-3">
-                    <span class="text-muted">Last <span class="badge badge-secondary badge-pill">10</span> @if(count($comments)>10) of {{count($comments)}} @endif comments </span>
+                    @if(count($comments)>10)<span class="text-muted">Last <span class="badge badge-secondary badge-pill"> 10</span>  of {{count($comments)}} comments </span>@else <p style="font-family: Verdana, sans-serif;font-size: 15px;line-height: 1.5;">No comments found</p> @endif
                 </h4>
                 
                 <ul class="list-group mb-3">

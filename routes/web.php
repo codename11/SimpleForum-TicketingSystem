@@ -49,6 +49,8 @@ Route::get('/posts/{id}/comments/{comment_id}', "CommentsController@softUnDelete
 Route::post('/posts/{id}/comments/{comment_id}', "CommentsController@update");
 Route::resource("/posts/{id}/comments", "CommentsController");
 
+Route::post('/posts/{post_id}/{user_id}', "LikesController@addLikes");
+
 //Route::resource("/posts/{id}/comments/{parent_id}", "CommentsController");
 
 Auth::routes();

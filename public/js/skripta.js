@@ -10,6 +10,10 @@ function toggleForm(elem){
 
 }
 
+function funk(){
+    alert();
+}
+
 $(document).ready( () => {
 
     /*let comments = document.getElementsByClassName("commBody");

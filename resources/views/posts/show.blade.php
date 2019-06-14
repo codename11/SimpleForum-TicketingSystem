@@ -72,7 +72,7 @@
     @auth
     <hr>
 
-    @if(Auth::check() && (Auth::user()->rola->role=="administrator" || Auth::user()->rola->role=="moderator") && Auth::user()->status!=0)
+    @if(Auth::check() && (Auth::user()->isAdmin() || Auth::user()->isModerator() || Auth::user()->isUser()) && Auth::user()->status!=0)
         <form method="POST" action="/posts/{{$post->id}}/comments">
             @csrf
             <!-- https://laravel.com/docs/5.7/validation#available-validation-rules -->
@@ -200,5 +200,5 @@
 
             @endif
         </ul>
-        
+    </div>
 @endsection
