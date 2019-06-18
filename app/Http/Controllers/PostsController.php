@@ -13,6 +13,8 @@ use Illuminate\Support\Facades\Storage;
 use App\Mail\PostCreated;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Input;
+
 class PostsController extends Controller
 {
 
@@ -52,7 +54,25 @@ class PostsController extends Controller
         $comments = Comment::all();
         //dump($posts);
         
-        return view("posts.index")->with(compact("posts", "comments"));
+        return view("posts.index")->with(compact("posts", "comments", "response"));
+    }
+
+    public function ajax(Request $request)
+    { 
+        $var1 = $request->var1;
+        $var2 = $request->var2;
+        $elem = $request->elem;
+        /*
+        $var1 = $request->input('var1');
+        $var2 = $request->input('var2');
+        */
+        $this->authorize('view', Post::class);
+        
+        $posts = Post::orderBy("created_at","desc")->paginate(5);
+        $comments = Comment::all();
+        //return $request;
+        return response()->json(array("posts"=> $posts, "comments"=> $comments, "var1"=> $var1, "var2"=> $var2, "elem"=> $elem), 200);
+        
     }
 
     /**
@@ -190,8 +210,8 @@ class PostsController extends Controller
     public function edit($id)
     {
 
-        $this->authorize('update', Post::class);
         $post = Post::find($id);
+        $this->authorize('update', $post);
         /*if(\Gate::denies("checkIfAuthorized",$post)){
             abort(403);
         }*///Isto alternativa.

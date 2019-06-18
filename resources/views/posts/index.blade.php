@@ -51,5 +51,5 @@
 
           </div>
         </div>   
-
+        <button onclick="ajax(this)" class="btn btn-info" id="ajax">Ajax</button>
 @endsection

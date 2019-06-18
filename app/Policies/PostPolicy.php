@@ -42,7 +42,7 @@ class PostPolicy
      * @param  \App\Post  $post
      * @return mixed
      */
-    public function update(User $user)
+    public function update(User $user, Post $post)
     {
         return ($user->id==$post->user_id && $user->status==1);
     }
