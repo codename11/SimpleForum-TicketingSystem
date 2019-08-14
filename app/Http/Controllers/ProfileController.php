@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\User;
 use App\Post;
+use App\Comment;
 use App\Mail\PostCreated;
 use Illuminate\Support\Facades\Mail;
 
@@ -17,7 +18,9 @@ class ProfileController extends Controller
      */
     public function index()
     {
-        dd("mrt");
+        $profiles = User::all();
+
+        return view("pages.profileList")->with(compact("profiles"));
     }
 
     /**

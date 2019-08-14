@@ -38,6 +38,9 @@
             <li class="nav-item">
               <a class="nav-link" href="/profile/{{auth()->user()->id}}">Profile</a>
             </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/profiles">Profile List</a>
+            </li>
             @endif
           </ul>
 

@@ -58,6 +58,7 @@ Auth::routes();
 
 Route::get('/dashboard', 'DashboardController@index');
 Route::get('/profile/{id}', 'ProfileController@show');
+Route::get('/profiles', 'ProfileController@index');
 //Route::post('/profile/{id}', 'ProfileController@store');
 
 Route::post('/posts', "PostsController@ajax");

@@ -12,7 +12,7 @@
     <div class="w3-col m3 p-1" style="font-size: 12px;">
       <!-- Profile -->
       <div class="w3-card w3-round w3-white">
-        <div class="w3-container text-align: justify;">
+        <div class="w3-container text-align: justify;" style="padding-bottom: 10px;">
             <h4 class="w3-center">My Profile</h4>
             <p class="w3-center"><img src="/storage/cover_images/{{$user->avatar}}" class="w3-circle" style="height:106px;width:106px" alt="Avatar"></p>
             <hr>
@@ -20,7 +20,6 @@
             <p><i class="fa fa-home fa-fw w3-margin-right w3-text-theme"></i> Username: {{$user->name}}</p>
             <p><i class="fa fa-birthday-cake fa-fw w3-margin-right w3-text-theme"></i> Member since: {{$user->created_at->format('d/m/Y')}}</p>
             <p><i class="fas fa-dungeon w3-margin-right w3-text-theme"></i> Role:{{$user->rola->role}}</p>
-            
         </div>
       </div>
       <br>
